@@ -556,6 +556,34 @@ public class FirstTest {
         );
     }
 
+    //Ex6: Тест: assert title
+    @Test
+    public void testCheckElementTitle()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                "Appium",
+                "Cannot find 'Search' input",
+                5
+        );
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Appium']"),
+                "Cannot find 'Appium' in search",
+                5
+        );
+        String search_result_locator = "//*[@text='Appium']";
+        assertElementPresent(
+                By.xpath(search_result_locator),
+                "Cannot find article title",
+                5
+        );
+    }
+
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
     {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
@@ -685,5 +713,15 @@ public class FirstTest {
     {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         return element.getAttribute(attribute);
+    }
+
+    private void assertElementPresent(By by, String error_message, long timeoutInSeconds)
+    {
+        List elements = driver.findElements(by);
+        int amount_of_elements = elements.size();
+        Assert.assertTrue(
+                error_message,
+                amount_of_elements > 0
+        );
     }
 }
