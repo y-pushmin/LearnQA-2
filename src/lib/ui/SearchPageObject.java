@@ -11,7 +11,8 @@ public class SearchPageObject extends MainPageObject {
         SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']",
         SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn",
         SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']",
-        SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']";
+        SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']",
+        CLEAR_SEARCH_LABEL = "org.wikipedia:id/search_empty_image";
 
 
     public SearchPageObject(AppiumDriver driver)
@@ -81,5 +82,15 @@ public class SearchPageObject extends MainPageObject {
     public void assertThereIsNoResultOfSearch()
     {
         assertElementPresent(By.xpath(SEARCH_EMPTY_RESULT_ELEMENT), "We supposed not to find any results", 15);
+    }
+
+    public void waitForClearSearchLabel()
+    {
+        this.waitForElementPresent(By.id(CLEAR_SEARCH_LABEL), "Search result has not dissapeared", 15);
+    }
+
+    public void assertThereIsClearSearchLabel()
+    {
+        assertElementPresent(By.id(CLEAR_SEARCH_LABEL), "We supposed not to find any results", 15);
     }
 }
